@@ -19,6 +19,7 @@
                 <ProductList />
             </div>
         </div>
+		<Fox/>
     </div>
 </template>
 
@@ -26,11 +27,12 @@
     import ProductList from "./ProductList";
     import CategoryControls from "./CategoryControls";
     import CartSummary from "./CartSummary";
+	import Fox from "./Fox";
     import { mapMutations } from "vuex";
     import Search from "./Search";
 
     export default {
-        components: { ProductList, CategoryControls, CartSummary, Search },
+        components: { ProductList, CategoryControls, CartSummary, Search, Fox },
         methods: {
             ...mapMutations(["setShowSearch"])
         }
