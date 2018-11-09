@@ -20,6 +20,9 @@ module.exports = function () {
     return { 
         products: data,
         categories: categories,
-        orders: []
+        orders: [],
+        homes: [
+            { "id": 1, "alias": "Stepa 23", "streetName": "Stefanika",  "streetNumber": 9, "homeNumber": 23, "city": "Belgrade", "country": "Serbia" } 
+        ]
     }
 }

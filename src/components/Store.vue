@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid">
+        <!--
         <div class="row">
             <div class="col bg-dark text-white">
                 <a class="navbar-brand">SPORTS STORE</a>
@@ -19,6 +20,7 @@
                 <ProductList />
             </div>
         </div>
+        -->
 		<Fox/>
     </div>
 </template>
