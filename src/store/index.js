@@ -7,7 +7,7 @@ import AuthModule from "./auth";
 
 Vue.use(Vuex);
 
-const baseUrl = "/api";
+const baseUrl = "http://localhost:3500";
 const productsUrl = `${baseUrl}/products`;
 const categoriesUrl = `${baseUrl}/categories`;
 
