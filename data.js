@@ -22,7 +22,8 @@ module.exports = function () {
         categories: categories,
         orders: [],
         homes: [
-            { "id": 1, "alias": "Stepa 23", "streetName": "Stefanika",  "streetNumber": 9, "homeNumber": 23, "city": "Belgrade", "country": "Serbia" } 
+            { "id": 1, "alias": "Stepa 23", "streetName": "Stefanika",  "streetNumber": 9, "homeNumber": 23, "city": "Belgrade", "country": "Serbia" },
+            { "id": 2, "alias": "Stepa 19", "streetName": "Stefanika",  "streetNumber": 9, "homeNumber": 19, "city": "Belgrade", "country": "Serbia" }
         ]
     }
 }

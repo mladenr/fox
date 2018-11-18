@@ -1,5 +1,5 @@
 <template>
-	<v-app id="inspire">
+	<v-app id="fox">
     <v-navigation-drawer
       :clipped="$vuetify.breakpoint.lgAndUp"
       v-model="drawer"
@@ -65,6 +65,7 @@
         </template>
       </v-list>
     </v-navigation-drawer>
+
     <v-toolbar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       color="blue darken-3"
@@ -91,17 +92,9 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-btn
-      fab
-      bottom
-      right
-      color="pink"
-      dark
-      fixed
-      @click="dialog = !dialog"
-    >
-      <v-icon>add</v-icon>
-    </v-btn>
+
+      <Footer/>
+
     <v-dialog v-model="dialog" width="800px">
       <v-card>
         <v-card-title
@@ -127,9 +120,12 @@
 
 <script>
 	import Homes from "./Homes";
+    import Footer from "./Footer";
+    import { required, minLength } from 'vuelidate/lib/validators'
 
-  export default {
-		components: { Homes },
+
+    export default {
+		components: { Homes, Footer },
     data: () => ({
       dialog: false,
       drawer: null,
@@ -137,6 +133,12 @@
         { icon: 'home', text: 'Homes' }
       ]
     }),
+      validations: {
+          alias: {
+              required,
+              minLength: minLength(4)
+          }
+      },
     props: {
       source: String
     }

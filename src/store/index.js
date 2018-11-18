@@ -9,7 +9,7 @@ Vue.use(Vuex);
 
 const baseUrl = "http://localhost:3500";
 const productsUrl = `${baseUrl}/products`;
-//const categoriesUrl = `${baseUrl}/categories`;
+const categoriesUrl = `${baseUrl}/categories`;
 const homesUrl = `${baseUrl}/homes`;
 
 export default new Vuex.Store({
@@ -24,7 +24,7 @@ export default new Vuex.Store({
         serverPageCount: 0,
         searchTerm: "",
         showSearch: false,
-        homesData: []
+        homes: []
     },
     getters: {
         processedProducts: (state) => {  
@@ -32,12 +32,23 @@ export default new Vuex.Store({
         },
         pageCount: (state) => state.serverPageCount,
         categories: state => ["All", ...state.categoriesData],
-        homes: state => state.homesData,
+        homes: state => state.homes,
         productById:(state) => (id) => {
             return state.pages[state.currentPage].find(p => p.id == id);
-        }        
+        },
+        homeById:(state) => (id) => {
+            return state.pages[state.currentPage].find(p => p.id == id);
+        }
     },
     mutations: {
+        saveHome(currentState, home) {
+          let index = currentState.homes.findIndex(h => h.id == home.id);
+          if (index == -1) {
+              currentState.homes.push(home);
+          } else {
+              Vue.set(currentState.homes, index, home);
+          }
+        },
         _setCurrentPage(state, page) {
             state.currentPage = page;
         },
@@ -63,7 +74,7 @@ export default new Vuex.Store({
             state.categoriesData = categories;
         },
         setHomes(state, homes) {
-            state.homesData = homes;
+            state.homes = homes;
         },
         setPageCount(state, count) {
             state.serverPageCount = Math.ceil(Number(count) / state.pageSize);
@@ -82,13 +93,19 @@ export default new Vuex.Store({
             let page = state.pages[state.currentPage];
             let index = page.findIndex(p => p.id == product.id);
             Vue.set(page, index, product);
-        }        
+        },
+        _addHome(state, home) {
+            //state.pages[state.currentPage].unshift(home);
+        },
     },
     actions: { 
         async getData(context) {
-            await context.dispatch("getPage", 2);
+            //await context.dispatch("getPage", 2);
             //context.commit("setCategories", (await Axios.get(categoriesUrl)).data);
             context.commit("setHomes", (await Axios.get(homesUrl)).data);
+        },
+        async getHomesAction(context) {
+            (await Axios.get(homesUrl)).data.forEach(h => context.commit("saveHome", h));
         },
         async getPage(context, getPageCount = 1) {
             let url = `${productsUrl}?_page=${context.state.currentPage}` 
@@ -149,6 +166,18 @@ export default new Vuex.Store({
             await context.getters.authenticatedAxios
                 .put(`${productsUrl}/${product.id}`, product);
             this.commit("_updateProduct", product);
+        },
+        async removeHome(context, home) {
+            await context.getters.authenticatedAxios
+                .delete(`${homesUrl}/${home.id}`);
+            context.dispatch("getData");
+        },
+        async addHome(context, home) {
+            let data = (await context.getters.authenticatedAxios.post(homesUrl,
+                home)).data;
+            home.id = data.id;
+            this.commit("_addHome", home);
+            context.dispatch("getData");
         }
     }
 })
